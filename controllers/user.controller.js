@@ -18,7 +18,7 @@ export const getUsers = async (req, res) => {
         limit,
         totalDocuments,
         totalPages: Math.ceil(totalDocuments / limit),
-        currentDocumentCount: data.length,
+        currentDocumentCount: users.length,
       },
     });
   } catch (err) {
