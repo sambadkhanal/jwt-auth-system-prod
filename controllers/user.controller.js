@@ -2,17 +2,24 @@ import User from "../models/User.model.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    // Pagination
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
     const skip = (page - 1) * limit;
-    const total = await User.countDocuments();
+    const totalDocuments = await User.countDocuments();
+
+    // Find all users and select every field except password from respective document
     const users = await User.find().skip(skip).limit(limit).select("-password");
 
     res.status(200).json({
       users,
-      total,
-      totalPages: Math.ceil(total / limit),
-      currentPage: page,
+      pagination: {
+        page,
+        limit,
+        totalDocuments,
+        totalPages: Math.ceil(totalDocuments / limit),
+        currentDocumentCount: data.length,
+      },
     });
   } catch (err) {
     console.log("Error in getUsers controller: ", err.stack);
