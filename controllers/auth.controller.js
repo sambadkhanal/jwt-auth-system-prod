@@ -125,7 +125,7 @@ export const refreshToken = async (req, res) => {
     });
   } catch (err) {
     console.log("Error occured in refreshToken controller: ", err.stack);
-    return res.status(500).json({ msng: "Internal Server Error" });
+    return res.status(401).json({ msng: "Invalid or expired refresh token" });
   }
 };
 
