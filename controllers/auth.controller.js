@@ -66,7 +66,7 @@ export const login = async (req, res) => {
         role: user.role,
       },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "10s" }, // After 7 days browser will automatically delete cookie
+      { expiresIn: "15s" }, // After 7 days browser will automatically delete cookie
     );
 
     // refresh token is stored in http only cookie in browser and browser will automatically send it with future requests and we can use it in backend to refresh access token
