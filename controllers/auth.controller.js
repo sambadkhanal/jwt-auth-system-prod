@@ -56,7 +56,7 @@ export const login = async (req, res) => {
         role: user.role,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5s" },
+      { expiresIn: "15m" },
     );
 
     // It is used to keep the user logged in even when the access token expires
@@ -66,7 +66,7 @@ export const login = async (req, res) => {
         role: user.role,
       },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "15s" }, // After 7 days browser will automatically delete cookie
+      { expiresIn: "7d" }, // After 7 days browser will automatically delete cookie
     );
 
     // refresh token is stored in http only cookie in browser and browser will automatically send it with future requests and we can use it in backend to refresh access token
@@ -111,7 +111,7 @@ export const refreshToken = async (req, res) => {
     const newAccessToken = jwt.sign(
       { id: user._id, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5s" },
+      { expiresIn: "15m" },
     );
 
     res.status(200).json({
