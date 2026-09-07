@@ -12,7 +12,7 @@ export const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ msng: "Invalid token" }); // 403 is forbidden which means you are authenticated but your token is not valid
+      return res.status(401).json({ msng: "Invalid or expired token" }); // 403 is forbidden which means you are authenticated but your token is not valid
     }
 
     // Decoded token payload is attached to the request object so that next middleware or route handler can access req.user ie id and role when it moves to next()
