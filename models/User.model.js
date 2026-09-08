@@ -11,10 +11,10 @@ const schema = mongoose.Schema(
       unique: true,
     },
     password: String,
-    role: {
-      type: String,
-      default: "user",
-      enum: ["user", "admin"],
+    roles: {
+      type: [String],
+      default: ["user"],
+      enum: ["user", "admin", "guest"], // allowed roles or options
     },
   },
   { timestamps: true },

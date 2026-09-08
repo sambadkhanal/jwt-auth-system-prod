@@ -12,7 +12,7 @@ export const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.status(401).json({ msng: "Invalid or expired token" }); // 403 is forbidden which means you are authenticated but your token is not valid
+      return res.status(401).json({ msng: "Invalid or expired token" });
     }
 
     // Decoded token payload is attached to the request object so that next middleware or route handler can access req.user ie id and role when it moves to next()
@@ -27,8 +27,8 @@ export const verifyToken = (req, res, next) => {
 
 export const verifyRole = (role) => {
   return (req, res, next) => {
-    const userRole = req.user?.role; // To prevent crashes if req.user is undefined
-    if (userRole !== role) {
+    const userRoles = req.user?.roles; // To prevent crashes if req.user is undefined
+    if (!userRoles?.includes(role)) {
       return res.status(403).json({ msng: "Access denied" });
     }
     next();

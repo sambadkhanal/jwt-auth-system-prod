@@ -17,7 +17,7 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
@@ -53,7 +53,7 @@ export const login = async (req, res) => {
     const accessToken = jwt.sign(
       {
         id: user._id,
-        role: user.role,
+        roles: user.roles,
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "5m" },
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
     const refreshToken = jwt.sign(
       {
         id: user._id,
-        role: user.role,
+        roles: user.roles,
       },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1h" }, // After 7 days browser will automatically delete cookie
@@ -84,7 +84,7 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        roles: user.roles,
       },
     });
   } catch (err) {
@@ -110,7 +110,7 @@ export const refreshToken = async (req, res) => {
     }
 
     const newAccessToken = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: user._id, roles: user.roles },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "5m" },
     );
@@ -121,7 +121,7 @@ export const refreshToken = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        roles: user.roles,
       },
     });
   } catch (err) {
